@@ -1,0 +1,3 @@
+---
+- ansible.building.include_tasks: rc.yaml
+  tags: rc

@@ -1,0 +1,21 @@
+---
+- name: Configure rc.conf - global
+  community.general.sysrc:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ freebsd_sysrc_global }}"
+  tags: rc
+
+- name: Configure rc.conf - group
+  community.general.sysrc:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ freebsd_sysrc_group | default([]) }}"
+  tags: rc
+
+- name: Configure rc.conf - host
+  community.general.sysrc:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ freebsd_sysrc_host | default([]) }}"
+  tags: rc
