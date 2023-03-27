@@ -3,7 +3,7 @@
   community.general.sysrc:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-  loop: "{{ freebsd_sysrc_global }}"
+  loop: "{{ freebsd_sysrc_global | default([]) }}"
   tags: rc
 
 - name: Configure rc.conf - group

@@ -1,0 +1,16 @@
+---
+- name: Fstab entries
+  ansible.builtin.lineinfile:
+    dest: /etc/fstab
+    line: "{{ item }}"
+  loop: "{{ freebsd_mounts }}"
+  when: freebsd_mounts is defined
+  tags: fs
+
+- name: Exports entries
+  ansible.builtin.lineinfile:
+    dest: /etc/exports
+    line: "{{ item }}"
+  loop: "{{ freebsd_exports }}"
+  when: freebsd_exports is defined
+  tags: fs

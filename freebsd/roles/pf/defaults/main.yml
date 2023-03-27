@@ -1,2 +1,4 @@
 ---
-# defaults file for pf
+#pf_rules_global: []
+#pf_rules_group: []
+#pf_rules_host: []

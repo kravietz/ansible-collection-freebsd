@@ -1,2 +1,11 @@
 ---
-# handlers file for ipfw
+- name: Ipfw validate
+  ansible.builtin.command: ipfw -qfn /usr/local/etc/ipfw.txt
+  tags: firewall
+
+- name: Ipfw restart
+  ansible.builtin.service:
+    name: ipfw
+    state: restarted
+  tags: firewall
+

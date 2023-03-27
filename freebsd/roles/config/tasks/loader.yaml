@@ -1,0 +1,28 @@
+---
+# Cannot use community.general.sysrc here
+# because loader.conf key names can contain characters
+# disallowed in rc.conf like a.b.c.d=xxx
+
+- name: Configure loader.conf - global
+  ansible.builtin.lineinfile:
+    line: '{{ item.name }}="{{ item.value }}"'
+    path: /boot/loader.conf
+    regexp: ^{{ item.name }}
+  loop: "{{ freebsd_loader_global | default([]) }}"
+  tags: system
+
+- name: Configure loader.conf - group
+  ansible.builtin.lineinfile:
+    line: '{{ item.name }}="{{ item.value }}"'
+    path: /boot/loader.conf
+    regexp: ^{{ item.name }}
+  loop: "{{ freebsd_loader_group | default([]) }}"
+  tags: system
+
+- name: Configure loader.conf - host
+  ansible.builtin.lineinfile:
+    line: '{{ item.name }}="{{ item.value }}"'
+    path: /boot/loader.conf
+    regexp: ^{{ item.name }}
+  loop: "{{ freebsd_loader_host | default([]) }}"
+  tags: system

@@ -1,0 +1,19 @@
+---
+- name: Rc.conf tasks
+  ansible.builtin.include_tasks: rc.yaml
+  tags: rc
+- name: Loader.conf tasks
+  ansible.builtin.include_tasks: loader.yaml
+  tags: loader
+- name: Sysctl.conf tasks
+  ansible.builtin.include_tasks: sysctl.yaml
+  tags: sysctl
+- name: Pkg tasks
+  ansible.builtin.include_tasks: pkg.yaml
+  tags: pkg
+- name: User tasks
+  ansible.builtin.include_tasks: user.yaml
+  tags: user
+- name: Config drop tasks
+  ansible.builtin.include_tasks: config.yaml
+  tags: config

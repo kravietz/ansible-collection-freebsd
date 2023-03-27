@@ -1,2 +1,30 @@
 ---
-# defaults file for config
+# freebsd_pkg_channel: latest
+# freebsd_pkg_channel: quarterly
+# freebsd_update_enable: false
+# freebsd_packages_global: []
+# freebsd_packages_group: []
+# freebsd_packages_host: []
+
+# freebsd_sysctl_global: []
+# freebsd_sysctl_group: []
+# freebsd_sysctl_host: []
+
+# freebsd_sysrc_global: []
+# freebsd_sysrc_group: []
+# freebsd_sysrc_host: []
+
+# freebsd_loader_global: []
+# freebsd_loader_group: []
+# freebsd_loader_host: []
+
+# freebsd_users_global: []
+# freebsd_users_group: []
+# freebsd_users_host: []
+
+# freebsd_configs_global: {}
+# freebsd_configs_group: {}
+# freebsd_configs_host: {}
+
+# freebsd_mounts: []
+# freebsd_exports: []
