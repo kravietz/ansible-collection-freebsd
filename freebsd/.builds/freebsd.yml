@@ -1,0 +1,16 @@
+---
+# build manifest for SourceHut
+# https://man.sr.ht/builds.sr.ht/
+# @formatter:off
+image: freebsd/latest
+packages:
+  - ansible
+  - ansible-lint
+sources:
+  - https://git.sr.ht/~kravietz/krvtz.freebsd
+tasks:
+  - lint: |
+      ansible-lint .
+      ansible-playbook --syntax-check tests/test.yaml
+  - deploy: |-
+      ansible-playbook --diff tests/test.yaml
