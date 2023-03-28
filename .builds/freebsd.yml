@@ -9,10 +9,15 @@ packages:
 sources:
   - https://git.sr.ht/~kravietz/krvtz.freebsd
 tasks:
+  - install: |
+      ansible-galaxy collection build krvtz.freebsd/freebsd/
+      ansible-galaxy collection install krvtz-freebsd-1.0.0.tar.gz
   - lint: |
-      cd freebsd
-      ansible-lint tests/test.yaml
-      ansible-playbook --syntax-check tests/test.yaml
+      cd krvtz.freebsd/freebsd/tests
+      ansible-lint
+      ansible-playbook --syntax-check test.yaml
+  - pf: |
+      sudo kldload pf
+      sudo pfctl -e
   - deploy: |
-      cd freebsd
-      ansible-playbook --diff tests/test.yaml
+      ansible-playbook --diff test.yaml
