@@ -4,8 +4,8 @@
 # @formatter:off
 image: freebsd/latest
 packages:
-  - ansible
-  - ansible-lint
+  - py39-ansible
+  - py39-ansible-lint
 sources:
   - https://git.sr.ht/~kravietz/krvtz.freebsd
 tasks:
