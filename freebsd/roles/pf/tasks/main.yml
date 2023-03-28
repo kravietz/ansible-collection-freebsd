@@ -1,5 +1,5 @@
 ---
-- name: Create combined rules variable
+- name: Create combined rules
   ansible.builtin.set_fact:
     _pf_rules_combined: "{{ pf_rules_global | default([]) }}"
   tags: pf
@@ -7,18 +7,24 @@
 - name: Combine global and group rules
   when: pf_rules_group is defined
   ansible.builtin.set_fact:
-    _pf_rules_combined: "{{ _pf_rules_combined + pf_rules_group }}"
+    _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_group, recursive=True) }}"
   tags: pf
 
 - name: Combine global and host rules
   when: pf_rules_host is defined
   ansible.builtin.set_fact:
-    _pf_rules_combined: "{{ _pf_rules_combined + pf_rules_host }}"
+    _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_host, recursive=True) | dictsort }}"
   tags: pf
+
+- name: Debug combined rules
+  when: 'pf_rules_debug | default(False)'
+  ansible.builtin.debug:
+    var: _pf_rules_combined
 
 - name: Write pf.conf
   ansible.builtin.template:
     dest: /etc/pf.conf
+    src: templates/pf.conf.j2
     validate: 'pfctl -n -f %s'
     owner: root
     group: wheel
