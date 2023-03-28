@@ -1,4 +1,13 @@
 ---
-# pf_rules_global: []
-# pf_rules_group: []
-# pf_rules_host: []
+# pf_rules_debug: true
+
+# pf_rules_global:
+#   000 group1:
+#     - rule1
+#     - rule2
+#   010 group2:
+#     - rule1
+
+# pf_rules_group: {}
+
+# pf_rules_host: {}
