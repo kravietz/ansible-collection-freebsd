@@ -1,12 +1,15 @@
 ---
 - hosts: localhost
+  become: true
+  become_user: root
   name: Test
   vars:
+    pf_rules_debug: true
     pf_rules_global:
       999 policy:
-        - block drop in log
+        - pass in log
       000 lo0:
-        - set skip lo0
+        - set skip on lo0
       010 scrubs:
         - scrub in fragment reassemble no-df
         - scrub reassemble tcp
@@ -34,4 +37,4 @@
         - noisy="{ 137:139, mdns, 5355, ssdp, 6667, 10001, dhcps }"
         - block in quick proto udp from any to any port $noisy
   roles:
-    - pf
+    - krvtz.freebsd.pf
