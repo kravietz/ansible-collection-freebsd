@@ -11,7 +11,7 @@ sources:
 tasks:
   - install: |
       ansible-galaxy collection build krvtz.freebsd/freebsd/
-      ansible-galaxy collection install krvtz-freebsd-1.0.0.tar.gz
+      ansible-galaxy collection install krvtz-freebsd-*.tar.gz
   - lint: |
       cd krvtz.freebsd/freebsd/tests
       ansible-lint
@@ -20,4 +20,5 @@ tasks:
       sudo kldload pf
       sudo pfctl -e
   - deploy: |
+      cd krvtz.freebsd/freebsd/tests
       ansible-playbook --diff test.yaml
