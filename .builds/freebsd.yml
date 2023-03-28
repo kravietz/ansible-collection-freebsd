@@ -10,7 +10,9 @@ sources:
   - https://git.sr.ht/~kravietz/krvtz.freebsd
 tasks:
   - lint: |
-      ansible-lint .
+      cd freebsd
+      ansible-lint tests/test.yaml
       ansible-playbook --syntax-check tests/test.yaml
-  - deploy: |-
+  - deploy: |
+      cd freebsd
       ansible-playbook --diff tests/test.yaml
