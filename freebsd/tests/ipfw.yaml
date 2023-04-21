@@ -21,7 +21,8 @@
         - add set 8 deny ip from any to ::1
         - add set 8 deny ip from ::1 to any
       003 icmpv6:
-        - add set 8 allow ipv6-icmp from :: to ff02::/16
+        # :: needs to be escaped in YAML
+        - "add set 8 allow ipv6-icmp from :: to ff02::/16"
         - add set 8 allow ipv6-icmp from fe80::/10 to fe80::/10
         - add set 8 allow ipv6-icmp from fe80::/10 to ff02::/16
         - add set 8 allow ipv6-icmp from any to any icmp6types 1
