@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  become: true
+  become_user: root
+  name: Test
+  vars:
+    # krvtz.freebsd.config
+    freebsd_pkg_channel: latest
+    freebsd_update_enable: false
+    freebsd_packages_global: [curl]
+    freebsd_sysctl_global:
+      - name: net.inet.ip.random_id
+        value: 1
+    freebsd_sysrc_global:
+      - name: clear_tmp_enable
+        value: "YES"
+    freebsd_loader_global:
+      - name: security.bsd.allow_destructive_dtrace
+        value: 0
+    freebsd_users_global:
+      - name: ansible
+        uid: 1002
+        sudo: true
+        shell: /bin/sh
+        sshkeys: "ssh-ed25519 AAA user@test"
+        password: '*'
+        groups: wheel    
+    freebsd_configs_global:
+      - 
+    freebsd_mounts:
+      - "# test fstab mount"
+    freebsd_exports:
+      - "# test export"
+  roles:
+    - krvtz.freebsd.config

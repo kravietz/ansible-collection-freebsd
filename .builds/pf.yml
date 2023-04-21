@@ -21,4 +21,4 @@ tasks:
       sudo pfctl -e
   - deploy: |
       cd ansible-collection-freebsd/freebsd/tests
-      ansible-playbook --diff test.yaml
+      ansible-playbook --diff pf.yaml

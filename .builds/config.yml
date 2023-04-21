@@ -1,0 +1,24 @@
+---
+# build manifest for SourceHut
+# https://man.sr.ht/builds.sr.ht/
+# @formatter:off
+image: freebsd/latest
+packages:
+  - py39-ansible
+  - py39-ansible-lint
+sources:
+  - https://git.sr.ht/~kravietz/ansible-collection-freebsd
+tasks:
+  - install: |
+      ansible-galaxy collection build ansible-collection-freebsd/freebsd/
+      ansible-galaxy collection install krvtz-freebsd-*.tar.gz
+  - lint: |
+      cd ansible-collection-freebsd/freebsd/tests
+      ansible-lint
+      ansible-playbook --syntax-check test.yaml
+  - pf: |
+      sudo kldload pf
+      sudo pfctl -e
+  - deploy: |
+      cd ansible-collection-freebsd/freebsd/tests
+      ansible-playbook --diff config.yaml
