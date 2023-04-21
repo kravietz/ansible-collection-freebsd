@@ -27,7 +27,9 @@
         password: "*"
         groups: wheel
     freebsd_configs_global:
-      -
+      pf:
+        dest: /usr/local/etc/test.txt
+        content: test
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:
