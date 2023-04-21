@@ -22,7 +22,8 @@
         uid: 1002
         sudo: true
         shell: /bin/sh
-        sshkeys: "ssh-ed25519 AAA user@test"
+        sshkeys:
+          - ssh-ed25519 AAA user@test
         password: "*"
         groups: wheel
     freebsd_configs_global:
