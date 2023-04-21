@@ -26,14 +26,3 @@
   when: "'format' not in item"
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
-
-- name: Drop config files
-  ansible.builtin.copy:
-    dest: "{{ item.dest }}"
-    content: "{{ item.content | to_nice_json }}"
-    owner: "{{ item.owner | default('root') }}"
-    group: "{{ item.group | default('wheel') }}"
-    mode: "{{ item.mode | default('0644') }}"
-  when: "'format' in item and item.format == 'json'"
-  loop: "{{ freebsd_combined_configs.values() }}"
-  tags: config
