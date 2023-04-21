@@ -6,7 +6,6 @@
   vars:
     # krvtz.freebsd.config
     freebsd_pkg_channel: latest
-    freebsd_pkg_channel: quarterly
     freebsd_update_enable: false
     freebsd_packages_global: [curl]
     freebsd_sysctl_global:
@@ -66,5 +65,5 @@
         - noisy="{ 137:139, mdns, 5355, ssdp, 6667, 10001, dhcps }"
         - block in quick proto udp from any to any port $noisy
   roles:
-    - krvtz.freebsd.config
+    - krvtz.freebsd.config`
     - krvtz.freebsd.pf
