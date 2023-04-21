@@ -3,5 +3,5 @@
   ansible.builtin.service:
     name: ipfw
     state: restarted
-  tags: firewall
+  tags: ipfw
 

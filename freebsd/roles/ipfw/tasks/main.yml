@@ -38,4 +38,4 @@
     mode: 0644
   tags: ipfw
   notify:
-    - Ipfw reload
+    - Ipfw restart
