@@ -43,7 +43,7 @@
         - add set 8 allow udp from any dhcps to me dhcpc in
         - add set 8 allow udp from any dhcps to 255.255.255.255 dhcpc in
         - add set 8 allow udp from fe80::/10 to me dhcpv6\-client in
-      #010 local service:
+      # 010 local service:
       # - your local services here
       100 silent drop:
         - add set 8 count ip from any to any
