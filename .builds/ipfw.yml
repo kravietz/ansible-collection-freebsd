@@ -15,7 +15,7 @@ tasks:
   - lint: |
       cd ansible-collection-freebsd/freebsd/tests
       ansible-lint
-      ansible-playbook --syntax-check test.yaml
+      ansible-playbook --syntax-check ipfw.yaml
   - pf: |
       sudo kldload pf
       sudo pfctl -e

@@ -1,2 +1,41 @@
 ---
-# tasks file for ipfw
+- name: Create combined rules
+  ansible.builtin.set_fact:
+    _ipfw_rules_combined: "{{ ipfw_rules_global | default([]) }}"
+  tags: ipfw
+
+- name: Combine global and group rules
+  when: ipfw_rules_group is defined
+  ansible.builtin.set_fact:
+    _ipfw_rules_combined: "{{ _ipfw_rules_combined | combine(ipfw_rules_group, recursive=True) }}"
+  tags: ipfw
+
+- name: Combine global and host rules
+  when: ipfw_rules_host is defined
+  ansible.builtin.set_fact:
+    _ipfw_rules_combined: "{{ _ipfw_rules_combined | combine(ipfw_rules_host, recursive=True) | dictsort }}"
+  tags: ipfw
+
+- name: Debug combined rules
+  when: 'ipfw_rules_debug | default(False)'
+  ansible.builtin.debug:
+    var: _ipfw_rules_combined
+  tags: ipfw
+
+- name: Enable ipfw in sysrc
+  community.general.sysrc:
+    name: ipfw_type
+    value: /usr/local/etc/ipfw.conf
+  tags: ipfw
+
+- name: Write ipfw.conf
+  ansible.builtin.template:
+    dest: /usr/local/etc/ipfw.conf
+    src: templates/ipfw.conf.j2
+    validate: 'ipfw -n -f %s'
+    owner: root
+    group: wheel
+    mode: 0644
+  tags: ipfw
+  notify:
+    - Ipfw reload
