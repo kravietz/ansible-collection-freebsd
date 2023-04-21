@@ -4,7 +4,7 @@
   become_user: root
   name: Test
   vars:
-    ipfw_rules_debug: true 
+    ipfw_rules_debug: true
     # krvtz.freebsd.ipfw
     ipfw_rules_global:
       000 default:
@@ -37,7 +37,7 @@
         - add set 8 allow icmp from any to any icmptypes 8
         - add set 8 allow ipv6-icmp from any to any icmp6types 128,129
         - add set 8 allow icmp from any to any icmptypes 3,4,11
-        - add set 8 allow ipv6-icmp from any to any icmp6types 3      
+        - add set 8 allow ipv6-icmp from any to any icmp6types 3
       006 dhcp:
         - add set 8 allow udp from 0.0.0.0 dhcpc to 255.255.255.255 dhcps out
         - add set 8 allow udp from any dhcps to me dhcpc in
@@ -55,6 +55,6 @@
       999 swap sets:
         # swap the new rules into the default set 0
         - set swap 8 0
-        - delete set 8    
+        - delete set 8
   roles:
     - krvtz.freebsd.ipfw
