@@ -23,10 +23,10 @@
         sudo: true
         shell: /bin/sh
         sshkeys: "ssh-ed25519 AAA user@test"
-        password: '*'
-        groups: wheel    
+        password: "*"
+        groups: wheel
     freebsd_configs_global:
-      - 
+      -
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:
