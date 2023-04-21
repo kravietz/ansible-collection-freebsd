@@ -17,7 +17,7 @@
   tags: ipfw
 
 - name: Debug combined rules
-  when: 'ipfw_rules_debug | default(False)'
+  when: "ipfw_rules_debug | default(False)"
   ansible.builtin.debug:
     var: _ipfw_rules_combined
   tags: ipfw
@@ -32,7 +32,7 @@
   ansible.builtin.template:
     dest: /usr/local/etc/ipfw.conf
     src: templates/ipfw.conf.j2
-    validate: 'ipfw -n -f %s'
+    validate: "ipfw -n -f %s"
     owner: root
     group: wheel
     mode: 0644
