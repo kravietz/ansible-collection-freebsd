@@ -34,7 +34,5 @@
       - "# test fstab mount"
     freebsd_exports:
       - "# test export"
-  collections:
-    - kravietz.freebsd
   roles:
     - kravietz.freebsd.config

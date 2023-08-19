@@ -57,7 +57,5 @@
         # swap the new rules into the default set 0
         - set swap 8 0
         - delete set 8
-  collections:
-    - kravietz.freebsd
   roles:
     - kravietz.freebsd.ipfw
