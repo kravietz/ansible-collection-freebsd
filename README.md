@@ -2,11 +2,12 @@
 
 Collection of roles to configure FreeBSD servers:
 
-* `krvtz.freebsd.conf` — basic system configuration such as `/etc/rc.conf, sysctl.conf` etc
-* `krvtz.freebsd.pf` — management of `pf` firewall with multi-level Ansible group and host rules
-* `krvtz.freebsd.ipfw` — management of `ipfw` FreeBSD native firewall
-
-Example playbook using all three roles: [test.yaml](tests/test.yaml).
+* `krvtz.freebsd.conf` — basic system configuration such as `/etc/rc.conf, sysctl.conf`, custom config files etc.
+   Example: [tests/config.yaml](tests/config.yaml)
+* `krvtz.freebsd.pf` — management of `pf` firewall with multi-level Ansible group and host rules.
+   Example: [tests/pf.yaml](tests/pf.yaml)
+* `krvtz.freebsd.ipfw` — management of `ipfw` FreeBSD native firewall.
+   Example: [tests/ipfw.yaml](tests/ipfw.yaml)
 
 ## Acknowledgements
 
