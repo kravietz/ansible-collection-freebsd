@@ -6,6 +6,7 @@ image: freebsd/latest
 packages:
   - py39-ansible
   - py39-ansible-lint
+  - py39-importlib-resources
 sources:
   - https://git.sr.ht/~kravietz/ansible-collection-freebsd
 tasks:
