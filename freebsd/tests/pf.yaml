@@ -37,5 +37,7 @@
       090 silent block noisy:
         - noisy="{ 137:139, mdns, 5355, ssdp, 6667, 10001, dhcps }"
         - block in quick proto udp from any to any port $noisy
+  collections:
+    - kravietz.freebsd
   roles:
-    - krvtz.freebsd.pf
+    - kravietz.freebsd.pf
