@@ -6,6 +6,15 @@
   vars:
     # krvtz.freebsd.pf
     pf_rules_debug: true
+    pf_rules_host:
+      080 nfs:
+        - nfs="{ sunrpc, nfsd-status, nfsd-keepalive, nfsd, lockd, 2050 }"
+        - pass in quick inet6 proto { tcp, udp } from 2a02:390:79ef::/48 to any port $nfs
+    pf_rules_group:
+      030 ssh:
+        - mynet6="{ 2001:db8::/32 }" # RFC 3894 documentation subnet
+        - pass in quick inet6 proto tcp from $mynet6 to any port = ssh
+        - pass in quick inet  proto tcp from 192.168.0.0/16 to any port = ssh
     pf_rules_global:
       999 policy:
         - pass in log
@@ -17,10 +26,6 @@
         - scrub out all random-id
       020 egress:
         - pass out modulate state
-      030 ssh:
-        - mynet6="{ 2001:db8::/32 }" # RFC 3894 documentation subnet
-        - pass in quick inet6 proto tcp from $mynet6 to any port = ssh
-        - pass in quick inet  proto tcp from 192.168.0.0/16 to any port = ssh
       040 icmpv6:
         - ok_icmp6="{ unreach, toobig, timex, paramprob, echoreq, routeradv, neighbrsol, neighbradv, redir, 141, 142 }"
         - pass in quick inet6 proto ipv6-icmp icmp6-type $ok_icmp6
@@ -31,9 +36,6 @@
         - pass in quick inet proto icmp icmp-type $ok_icmp
       070 dhcp:
         - pass in quick inet proto udp from any port = dhcps to any port dhcpc
-      080 nfs:
-        - nfs="{ sunrpc, nfsd-status, nfsd-keepalive, nfsd, lockd, 2050 }"
-        - pass in quick inet6 proto { tcp, udp } from 2a02:390:79ef::/48 to any port $nfs
       090 silent block noisy:
         - noisy="{ 137:139, mdns, 5355, ssdp, 6667, 10001, dhcps }"
         - block in quick proto udp from any to any port $noisy

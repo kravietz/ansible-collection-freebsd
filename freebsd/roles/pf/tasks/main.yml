@@ -1,7 +1,7 @@
 ---
 - name: Create combined rules
   ansible.builtin.set_fact:
-    _pf_rules_combined: "{{ pf_rules_global | default([]) }}"
+    _pf_rules_combined: "{{ pf_rules_global | default({}) }}"
   tags: pf
 
 - name: Combine global and group rules
