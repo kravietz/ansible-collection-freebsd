@@ -9,7 +9,7 @@
   tags: update
 
 - name: Ensure pkg configuration dir
-  when: freebsd_pkg_latest is defined
+  when: freebsd_pkg_channel is defined
   ansible.builtin.file:
     dest: /usr/local/etc/pkg/repos/
     state: directory
