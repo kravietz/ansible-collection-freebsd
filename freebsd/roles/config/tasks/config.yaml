@@ -16,7 +16,7 @@
     freebsd_combined_configs: "{{ freebsd_combined_configs | combine(freebsd_configs_host, recursive=True) }}"
   tags: config
 
-- name: Drop config files
+- name: Write config files
   ansible.builtin.copy:
     dest: "{{ item.dest }}"
     content: "{{ item.content }}"
