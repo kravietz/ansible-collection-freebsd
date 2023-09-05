@@ -5,7 +5,6 @@
   name: Test
   vars:
     ipfw_rules_debug: true
-    # krvtz.freebsd.ipfw
     ipfw_rules_global:
       000 default:
         # set 31 is always loaded at the end of the ruleset

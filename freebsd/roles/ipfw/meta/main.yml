@@ -3,7 +3,7 @@ galaxy_info:
   author: kravietz
   description: FreeBSD ipfw firewall configuration
   company: krvtz.net
-  issue_tracker_url: https://todo.sr.ht/~kravietz/krvtz.freebsd
+  issue_tracker_url: https://github.com/kravietz/ansible-collection-freebsd/issues
   license: GPL-3.0-only
   min_ansible_version: "2.1"
   platforms:

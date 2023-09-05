@@ -4,7 +4,6 @@
   become_user: root
   name: Test
   vars:
-    # krvtz.freebsd.pf
     pf_rules_debug: true
     pf_rules_host:
       080 nfs:
