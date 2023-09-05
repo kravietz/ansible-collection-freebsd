@@ -17,6 +17,7 @@
   tags: user
 
 - name: Ensure groups
+  when: "'state' not in item or item.state == 'present'"
   ansible.builtin.group:
     name: "{{ item.name }}"
     gid: "{{ item.uid }}"
@@ -30,7 +31,7 @@
     groups: "{{ item.groups | default(item.name) }}"
     append: true  # append to the above groups, not remove from others
     shell: "{{ item.shell | default('/bin/sh') }}"
-    uid: "{{ item.uid }}"
+    uid: "{{ item.uid | default(5000) }}"  # hack for when state == 'absent'
     expires: -1
     password_lock: "{{ item.password_lock | default(False) }}"
   loop: "{{ freebsd_combined_users }}"
@@ -41,6 +42,7 @@
   community.general.sudoers:
     name: "{{ item.name }}"
     user: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
     commands: ALL
     runas: ALL
     nopassword: "{{ item.sudo_nopassword | default(False) }}"
@@ -49,10 +51,9 @@
   tags: user
 
 - name: Ensure ssh keys
+  when: "'sshkeys' in item"
   ansible.posix.authorized_key:
     user: "{{ item.0.name }}"
     key: "{{ item.1 }}"
-  with_subelements:
-    - "{{ freebsd_combined_users }}"
-    - "{{ sshkeys | default([]) }}"
+  loop: "{{ q('ansible.builtin.subelements', users, 'groups', {'skip_missing': True}) }}"
   tags: user
