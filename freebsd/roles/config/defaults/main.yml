@@ -28,3 +28,9 @@
 
 # freebsd_mounts: []
 # freebsd_exports: []
+
+# freebsd_termcap:
+#   - name: foot
+#     value: 'foot|foot terminal emulator:am:bw...'
+#   - name: foot
+#     state: absent

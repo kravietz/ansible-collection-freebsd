@@ -48,3 +48,17 @@
   when: "'format' in item and item.format == 'yaml'"
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
+
+- name: Update termcap records
+  when: freebsd_termcap is defined
+  ansible.builtin.lineinfile:
+    dest: /usr/share/misc/termcap
+    regexp: "^{{ item.name }}\\|"
+    line: "{{ item.value }}"
+    state: "{{ item.state | default('present') }}"
+    owner: root
+    group: wheel
+    mode: "0644"
+  loop: "{{ freebsd_termcap }}"
+  notify:
+    - mkdb termcap
