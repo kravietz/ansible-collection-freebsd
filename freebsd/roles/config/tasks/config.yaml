@@ -34,7 +34,7 @@
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('wheel') }}"
     mode: "{{ item.mode | default('0644') }}"
-  when: "'format' not in item"
+  when: "'format' not in item and 'state' not in item"
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
 
