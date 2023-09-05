@@ -58,7 +58,7 @@
     state: "{{ item.state | default('present') }}"
     owner: root
     group: wheel
-    mode: "0644"
+    mode: "0444"
   loop: "{{ freebsd_termcap }}"
   notify:
     - mkdb termcap
