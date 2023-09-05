@@ -26,8 +26,9 @@
 - name: Ensure users
   ansible.builtin.user:
     name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
     groups: "{{ item.groups | default(item.name) }}"
-    append: true # append to the above groups, not remove from others
+    append: true  # append to the above groups, not remove from others
     shell: "{{ item.shell | default('/bin/sh') }}"
     uid: "{{ item.uid }}"
     expires: -1
@@ -53,5 +54,5 @@
     key: "{{ item.1 }}"
   with_subelements:
     - "{{ freebsd_combined_users }}"
-    - sshkeys # TODO: handle when no sshkeys property is defined
+    - "{{ sshkeys | default([]) }}"
   tags: user
