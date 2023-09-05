@@ -65,6 +65,9 @@
       test 1:
         dest: /usr/local/etc/test1.txt
         content: test 1
+      test dir:
+        dest: /tmp/test1
+        state: directory
     freebsd_configs_group:
       test 2:
         dest: /usr/local/etc/test2.txt

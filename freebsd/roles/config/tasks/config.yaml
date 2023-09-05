@@ -16,6 +16,17 @@
     freebsd_combined_configs: "{{ freebsd_combined_configs | combine(freebsd_configs_host, recursive=True) }}"
   tags: config
 
+- name: Create config dirs
+  when: "'state' in item and item.state == 'directory'"
+  ansible.builtin.file:
+    dest: "{{ item.dest }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('wheel') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop: "{{ freebsd_combined_configs.values() }}"
+  tags: config
+
 - name: Write config files
   ansible.builtin.copy:
     dest: "{{ item.dest }}"
