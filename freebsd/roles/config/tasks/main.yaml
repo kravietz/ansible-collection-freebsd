@@ -1,6 +1,6 @@
 ---
 - name: Rc.conf tasks
-  ansible.builtin.include_tasks: rc.yaml
+  ansible.builtin.include_tasks: sysrc.yaml
   tags: rc
 - name: Loader.conf tasks
   ansible.builtin.include_tasks: loader.yaml
