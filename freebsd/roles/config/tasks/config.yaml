@@ -54,7 +54,7 @@
   ansible.builtin.lineinfile:
     dest: /usr/share/misc/termcap
     regexp: "^{{ item.name }}\\|"
-    line: "{{ item.value }}"
+    line: "{{ item.value | default('') }}"  # default for when state == 'absent'
     state: "{{ item.state | default('present') }}"
     owner: root
     group: wheel
