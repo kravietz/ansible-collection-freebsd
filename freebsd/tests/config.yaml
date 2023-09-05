@@ -8,28 +8,71 @@
     freebsd_pkg_channel: latest
     freebsd_update_enable: false
     freebsd_packages_global: [curl]
+    freebsd_packages_group: [wget]
+    freebsd_packages_host: [wget2]
     freebsd_sysctl_global:
       - name: net.inet.ip.random_id
         value: 1
+    freebsd_sysctl_group:
+      - name: kern.ipc.shm_use_phys
+        value: 1
+    freebsd_sysctl_host:
+      - name: security.bsd.see_jail_proc
+        value: 0
     freebsd_sysrc_global:
       - name: clear_tmp_enable
+        value: "YES"
+    freebsd_sysrc_group:
+      - name: sendmail_enable
+        value: "NONE"
+    freebsd_sysrc_host:
+      - name: sshd_enable
         value: "YES"
     freebsd_loader_global:
       - name: security.bsd.allow_destructive_dtrace
         value: 0
+    freebsd_loader_group:
+      - name: verbose_loading
+        value: "YES"
+    freebsd_loader_host:
+      - name: autoboot_delay
+        value: 0
     freebsd_users_global:
-      - name: ansible
-        uid: 1002
+      - name: user1
+        uid: 5000
         sudo: true
         shell: /bin/sh
         sshkeys:
           - ssh-ed25519 AAA user@test
         password: "*"
+        sudo_nopassword: true
         groups: wheel
+    freebsd_users_group:
+      - name: user2
+        uid: 5001
+        shell: /bin/sh
+        sshkeys:
+          - ssh-ed25519 AAA user@test
+        password: "*"
+      - name: rpi
+        state: absent
+    freebsd_users_host:
+      - name: user3
+        uid: 5003
+        shell: /bin/sh
+        password_lock: true
     freebsd_configs_global:
-      pf:
-        dest: /usr/local/etc/test.txt
-        content: test
+      test 1:
+        dest: /usr/local/etc/test1.txt
+        content: test 1
+    freebsd_configs_group:
+      test 2:
+        dest: /usr/local/etc/test2.txt
+        content: test 2
+    freebsd_configs_host:
+      test 3:
+        dest: /usr/local/etc/test3.txt
+        content: test 3
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:
