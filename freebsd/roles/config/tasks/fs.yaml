@@ -11,6 +11,10 @@
   ansible.builtin.lineinfile:
     dest: /etc/exports
     line: "{{ item }}"
+    create: true
+    owner: root
+    group: wheel
+    mode: "0644"
   loop: "{{ freebsd_exports }}"
   when: freebsd_exports is defined
   tags: fs
