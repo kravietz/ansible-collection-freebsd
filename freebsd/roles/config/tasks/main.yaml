@@ -17,3 +17,6 @@
 - name: Config drop tasks
   ansible.builtin.include_tasks: config.yaml
   tags: config
+- name: Add exports and mounts
+  ansible.builtin.include_tasks: fs.yaml
+  tags: fs
