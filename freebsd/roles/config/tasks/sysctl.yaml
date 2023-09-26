@@ -3,7 +3,7 @@
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    sysctl_set: true
+    sysctl_set: "{{ item.sysctl_set | default(True)}}"
   loop: "{{ freebsd_sysctl_global | default([]) }}"
   tags: sysctl
 
@@ -11,7 +11,7 @@
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    sysctl_set: true
+    sysctl_set: "{{ item.sysctl_set | default(True)}}"
   loop: "{{ freebsd_sysctl_group | default([]) }}"
   tags: sysctl
 
@@ -19,6 +19,6 @@
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    sysctl_set: true
+    sysctl_set: "{{ item.sysctl_set | default(True)}}"
   loop: "{{ freebsd_sysctl_host | default([]) }}"
   tags: sysctl
