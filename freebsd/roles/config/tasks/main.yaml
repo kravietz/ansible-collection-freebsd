@@ -35,6 +35,7 @@
 - name: Debug combined_group_vars
   ansible.builtin.debug:
     var: combined_group_vars
+  when: freebsd_debug_vars
 
 - name: Rc.conf tasks
   ansible.builtin.include_tasks: sysrc.yaml

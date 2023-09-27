@@ -36,3 +36,4 @@
 #     state: absent
 
 freebsd_merge_dir: ./group_vars
+freebsd_debug_vars: false
