@@ -11,3 +11,6 @@
 # pf_rules_group: {}
 
 # pf_rules_host: {}
+
+freebsd_merge_dir: ./group_vars
+freebsd_debug_vars: false
