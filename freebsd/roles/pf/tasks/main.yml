@@ -15,10 +15,10 @@
     _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_group, recursive=True) }}"
   tags: pf
 
-- name: Combine global and host rules
+- name: Combine global and host rules, then sort
   when: pf_rules_host is defined
   ansible.builtin.set_fact:
-    _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_host, recursive=True) | dictsort }}"
+    _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_host, recursive=True) }}"
   tags: pf
 
 - name: Debug combined rules

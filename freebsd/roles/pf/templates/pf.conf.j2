@@ -1,6 +1,6 @@
 #jinja2: lstrip_blocks: "True", trim_blocks: "True"
 # {{ ansible_managed }}
-{% for group, rules in _pf_rules_combined %}
+{% for group, rules in _pf_rules_combined | dictsort %}
 # {{ group }}
 {% for rule in rules %}
 {{ rule }}
