@@ -4,6 +4,11 @@
     _pf_rules_combined: "{{ pf_rules_global | default({}) }}"
   tags: pf
 
+- name: Retrieve merged group pf rules
+  ansible.builtin.set_fact:
+    pf_rules_group: "{{ combined_group_vars.pf_rules_group | default({}) }}"
+  tags: pf
+
 - name: Combine global and group rules
   when: pf_rules_group is defined
   ansible.builtin.set_fact:

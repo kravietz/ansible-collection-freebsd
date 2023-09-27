@@ -4,6 +4,11 @@
     freebsd_combined_users: "{{ freebsd_users_global | default([]) }}"
   tags: user
 
+- name: Retrieve merged group users
+  ansible.builtin.set_fact:
+    freebsd_users_group: "{{ combined_group_vars.freebsd_users_group | default([]) }}"
+  tags: user
+
 - name: Combine global and group users
   when: freebsd_users_group is defined
   ansible.builtin.set_fact:

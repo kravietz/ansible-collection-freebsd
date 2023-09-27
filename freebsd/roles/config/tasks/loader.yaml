@@ -11,6 +11,11 @@
   loop: "{{ freebsd_loader_global | default([]) }}"
   tags: system
 
+- name: Retrieve merged group loader configs
+  ansible.builtin.set_fact:
+    freebsd_loader_group: "{{ combined_group_vars.freebsd_loader_group | default([]) }}"
+  tags: system
+
 - name: Configure loader.conf - group
   ansible.builtin.lineinfile:
     line: '{{ item.name }}="{{ item.value }}"'

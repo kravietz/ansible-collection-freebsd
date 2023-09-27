@@ -4,6 +4,11 @@
     _ipfw_rules_combined: "{{ ipfw_rules_global | default([]) }}"
   tags: ipfw
 
+- name: Retrieve merged group ipfw rules
+  ansible.builtin.set_fact:
+    ipfw_rules_group: "{{ combined_group_vars.ipfw_rules_group | default({}) }}"
+  tags: ipfw
+
 - name: Combine global and group rules
   when: ipfw_rules_group is defined
   ansible.builtin.set_fact:

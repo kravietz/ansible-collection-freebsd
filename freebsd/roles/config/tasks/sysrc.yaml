@@ -6,6 +6,11 @@
   loop: "{{ freebsd_sysrc_global | default([]) }}"
   tags: rc
 
+- name: Retrieve merged group sysrcs
+  ansible.builtin.set_fact:
+    freebsd_sysrc_group: "{{ combined_group_vars.freebsd_sysrc_group | default([]) }}"
+  tags: rc
+
 - name: Configure rc.conf - group
   community.general.sysrc:
     name: "{{ item.name }}"

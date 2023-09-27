@@ -34,3 +34,5 @@
 #     value: 'foot|foot terminal emulator:am:bw...'
 #   - name: foot
 #     state: absent
+
+freebsd_merge_dir: ./group_vars

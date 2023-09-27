@@ -1,22 +1,65 @@
 ---
+- name: Check for group files
+  become: false
+  delegate_to: localhost
+  ansible.builtin.stat:
+    path: "{{ freebsd_merge_dir ~ '/' ~ groupname ~ '.yaml' }}"
+  loop: "{{ group_names }}"
+  loop_control:
+    loop_var: groupname
+  register: group_files_stat
+
+- name: Debug combined_group_vars
+  ansible.builtin.debug:
+    var: group_files_stat
+
+- name: Import variables from group files
+  ansible.builtin.include_vars:
+    file: "{{ varfile.invocation.module_args.path }}"
+    name: "{{ varfile.groupname }}"
+  loop: "{{ group_files_stat.results }}"
+  loop_control:
+    loop_var: varfile
+  when: varfile.stat.exists
+
+- name: Combine Rules when nft_merged_groups is set
+  when: ((hostvars[inventory_hostname][varfile.groupname] is defined) and
+         (hostvars[inventory_hostname][varfile.groupname]|length > 0)) and
+        varfile.stat.exists
+  ansible.builtin.set_fact:
+    combined_group_vars: "{{ combined_group_vars | default({}) | combine(hostvars[inventory_hostname][varfile.groupname], list_merge='append', recursive=True) }}"
+  loop: "{{ group_files_stat.results }}"
+  loop_control:
+    loop_var: varfile
+
+- name: Debug combined_group_vars
+  ansible.builtin.debug:
+    var: combined_group_vars
+
 - name: Rc.conf tasks
   ansible.builtin.include_tasks: sysrc.yaml
   tags: rc
+
 - name: Loader.conf tasks
   ansible.builtin.include_tasks: loader.yaml
   tags: loader
+
 - name: Sysctl.conf tasks
   ansible.builtin.include_tasks: sysctl.yaml
   tags: sysctl
+
 - name: Pkg tasks
   ansible.builtin.include_tasks: pkg.yaml
   tags: pkg
+
 - name: User tasks
   ansible.builtin.include_tasks: user.yaml
   tags: user
+
 - name: Config drop tasks
   ansible.builtin.include_tasks: config.yaml
   tags: config
+
 - name: Add exports and mounts
   ansible.builtin.include_tasks: fs.yaml
   tags: fs

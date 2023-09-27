@@ -4,6 +4,11 @@
     freebsd_combined_configs: "{{ freebsd_configs_global | default({}) }}"
   tags: config
 
+- name: Retrieve merged group configs
+  ansible.builtin.set_fact:
+    freebsd_configs_group: "{{ combined_group_vars.freebsd_configs_group | default({}) }}"
+  tags: config
+
 - name: Combine global and group configs
   when: freebsd_configs_group is defined
   ansible.builtin.set_fact:
