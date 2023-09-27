@@ -5,6 +5,7 @@
   name: Test
   vars:
     pf_rules_debug: true
+    freebsd_debug_vars: true
     pf_rules_host:
       080 nfs:
         - nfs="{ sunrpc, nfsd-status, nfsd-keepalive, nfsd, lockd, 2050 }"

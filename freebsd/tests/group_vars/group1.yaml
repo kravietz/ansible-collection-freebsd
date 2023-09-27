@@ -1,5 +1,5 @@
 ---
 pf_rules_group:
-  030 ssh:
+  100 group1:
     - mynet6="{ 2001:db8::/32 }" # RFC 3894 documentation subnet
     - pass in quick inet  proto tcp from 192.168.0.0/16 to any port = ssh
