@@ -9,10 +9,6 @@
     loop_var: groupname
   register: group_files_stat
 
-- name: Debug combined_group_vars
-  ansible.builtin.debug:
-    var: group_files_stat
-
 - name: Import variables from group files
   ansible.builtin.include_vars:
     file: "{{ varfile.invocation.module_args.path }}"
