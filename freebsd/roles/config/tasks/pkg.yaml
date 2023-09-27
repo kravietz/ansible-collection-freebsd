@@ -37,7 +37,7 @@
 
 - name: Retrieve merged group packages
   ansible.builtin.set_fact:
-    freebsd_packages_group: "{{ combined_group_vars.freebsd_packages_group }}"
+    freebsd_packages_group: "{{ combined_group_vars.freebsd_packages_group | default({}) }}"
   tags: pkg
 
 - name: Create combined packages variable
