@@ -16,10 +16,10 @@ tasks:
   - lint: |
       cd ansible-collection-freebsd/freebsd/tests
       ansible-lint
-      ansible-playbook --syntax-check pf.yaml
+      ansible-playbook -i inventory --syntax-check pf.yaml
   - pf: |
       sudo kldload pf
       sudo pfctl -e
   - deploy: |
       cd ansible-collection-freebsd/freebsd/tests
-      ansible-playbook --diff pf.yaml
+      ansible-playbook -i inventory --diff pf.yaml

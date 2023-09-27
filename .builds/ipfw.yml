@@ -16,7 +16,7 @@ tasks:
   - lint: |
       cd ansible-collection-freebsd/freebsd/tests
       ansible-lint
-      ansible-playbook --syntax-check ipfw.yaml
+      ansible-playbook -i inventory --syntax-check ipfw.yaml
   - deploy: |
       cd ansible-collection-freebsd/freebsd/tests
-      ansible-playbook --diff ipfw.yaml
+      ansible-playbook -i inventory --diff ipfw.yaml

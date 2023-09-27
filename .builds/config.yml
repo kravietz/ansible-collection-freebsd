@@ -16,7 +16,7 @@ tasks:
   - lint: |
       cd ansible-collection-freebsd/freebsd/tests
       ansible-lint
-      ansible-playbook --syntax-check config.yaml
+      ansible-playbook -i inventory --syntax-check config.yaml
   - deploy: |
       cd ansible-collection-freebsd/freebsd/tests
-      ansible-playbook --diff config.yaml
+      ansible-playbook -i inventory --diff config.yaml
