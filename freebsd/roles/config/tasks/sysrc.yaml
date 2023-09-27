@@ -4,23 +4,23 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
   loop: "{{ freebsd_sysrc_global | default([]) }}"
-  tags: rc
+  tags: sysrc
 
 - name: Retrieve merged group sysrcs
   ansible.builtin.set_fact:
     freebsd_sysrc_group: "{{ combined_group_vars.freebsd_sysrc_group | default([]) }}"
-  tags: rc
+  tags: sysrc
 
 - name: Configure rc.conf - group
   community.general.sysrc:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
   loop: "{{ freebsd_sysrc_group | default([]) }}"
-  tags: rc
+  tags: sysrc
 
 - name: Configure rc.conf - host
   community.general.sysrc:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
   loop: "{{ freebsd_sysrc_host | default([]) }}"
-  tags: rc
+  tags: sysrc
