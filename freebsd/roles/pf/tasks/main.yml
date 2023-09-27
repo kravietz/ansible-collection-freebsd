@@ -21,11 +21,6 @@
     _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_host, recursive=True) }}"
   tags: pf
 
-- name: Debug combined rules
-  when: 'pf_rules_debug | default(False)'
-  ansible.builtin.debug:
-    var: _pf_rules_combined
-
 - name: Write pf.conf
   ansible.builtin.template:
     dest: /etc/pf.conf
