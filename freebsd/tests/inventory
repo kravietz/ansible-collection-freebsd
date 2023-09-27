@@ -1,5 +1,5 @@
 [group1]
-localhost
+localhost ansible_connection=local
 
 [group2]
-localhost
+localhost ansible_connection=local
