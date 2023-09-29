@@ -4,20 +4,6 @@
   become_user: root
   name: Test
   vars:
-    freebsd_pkg_channel: latest
-    freebsd_update_enable: false
-    freebsd_packages_global: [curl]
-    freebsd_packages_group: [wget]
-    freebsd_packages_host: [wget2]
-    freebsd_sysctl_global:
-      - name: net.inet.ip.random_id
-        value: 1
-    freebsd_sysctl_group:
-      - name: kern.ipc.shm_use_phys
-        value: 1
-    freebsd_sysctl_host:
-      - name: security.bsd.see_jail_proc
-        value: 0
     freebsd_sysrc_global:
       - name: clear_tmp_enable
         value: "YES"

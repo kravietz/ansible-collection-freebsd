@@ -1,0 +1,10 @@
+---
+freebsd_sysctl_global:
+  net.inet.ip.random_id: 1
+
+freebsd_sysctl_noreload_global:
+  kern.randompid: 1
+
+freebsd_pkg_channel: latest
+
+freebsd_update_enable: false

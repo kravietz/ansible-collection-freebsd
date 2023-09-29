@@ -1,32 +1,46 @@
 ---
-- name: Ensure sysctls are set - global
-  ansible.posix.sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-    sysctl_set: "{{ item.sysctl_set | default(True)}}"
-    reload: "{{ item.sysctl_set | default(True)}}"
-  loop: "{{ freebsd_sysctl_global | default([]) }}"
-  tags: sysctl
-
 - name: Retrieve merged group sysctls
   ansible.builtin.set_fact:
-    freebsd_sysctl_group: "{{ combined_group_vars.freebsd_sysctl_group | default([]) }}"
+    freebsd_sysctl_group: "{{ combined_group_vars.freebsd_sysctl_group | default({}) }}"
   tags: sysctl
 
-- name: Ensure sysctls are set - group
+- name: Merge group sysctls
+  ansible.builtin.set_fact:
+    _freebsd_sysctl_merged: "{{ freebsd_sysctl_global | default({}) | combine(freebsd_sysctl_group, list_merge='replace') }}"
+  tags: sysctl
+
+- name: Merge host sysctls
+  ansible.builtin.set_fact:
+    _freebsd_sysctl_merged: "{{ _freebsd_sysctl_merged | combine(freebsd_sysctl_host | default({}), list_merge='replace') }}"
+  tags: sysctl
+
+- name: Set combined sysctl values
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    sysctl_set: "{{ item.sysctl_set | default(True)}}"
-    reload: "{{ item.sysctl_set | default(True)}}"
-  loop: "{{ freebsd_sysctl_group | default([]) }}"
+  loop: "{{ _freebsd_sysctl_merged.items() }}"
   tags: sysctl
 
-- name: Ensure sysctls are set - host
+- name: Retrieve merged group sysctls - noreload
+  ansible.builtin.set_fact:
+    freebsd_sysctl_noreload_group: "{{ combined_group_vars.freebsd_sysctl_noreload_group | default({}) }}"
+  tags: sysctl
+
+- name: Merge group sysctls - noreload
+  ansible.builtin.set_fact:
+    _freebsd_sysctl_noreload_merged: "{{ freebsd_sysctl_noreload_global | default({}) | combine(freebsd_sysctl_noreload_group, list_merge='replace') }}"
+  tags: sysctl
+
+- name: Merge host sysctls - noreload
+  ansible.builtin.set_fact:
+    _freebsd_sysctl_noreload_merged: "{{ _freebsd_sysctl_noreload_merged | combine(freebsd_sysctl_noreload_host | default({}), list_merge='replace') }}"
+  tags: sysctl
+
+- name: Set combined sysctl values - noreload
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    sysctl_set: "{{ item.sysctl_set | default(True)}}"
-    reload: "{{ item.sysctl_set | default(True)}}"
-  loop: "{{ freebsd_sysctl_host | default([]) }}"
+    sysctl_set: false
+    reload: false
+  loop: "{{ _freebsd_sysctl_noreload_merged.items() }}"
   tags: sysctl

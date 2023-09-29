@@ -1,5 +1,15 @@
 ---
 pf_rules_group:
-  100 group1:
-    - mynet6="{ 2001:db8::/32 }" # RFC 3894 documentation subnet
+  101 rules for group1:
     - pass in quick inet  proto tcp from 192.168.0.0/16 to any port = ssh
+
+freebsd_sysctl_group:
+  net.inet.ip.random_id: 0
+
+freebsd_sysctl_noreload_group:
+  kern.randompid: 0
+
+freebsd_packages_group:
+  - wget
+
+freebsd_pkg_channel: quarterly

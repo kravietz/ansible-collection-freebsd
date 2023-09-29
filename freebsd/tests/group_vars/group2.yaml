@@ -1,4 +1,7 @@
 ---
 pf_rules_group:
-  101 group2:
-    - pass in quick inet6 proto tcp from $mynet6 to any port = ssh
+  102 rules for group2:
+    - "pass in quick inet6 proto tcp from { 2001:db8::/32 } to any port = ssh"
+
+freebsd_packages_group:
+  - wget2
