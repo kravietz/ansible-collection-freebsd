@@ -4,10 +4,6 @@
     freebsd_sysrc_group: "{{ combined_group_vars.freebsd_sysrc_group | default({}) }}"
   tags: sysrc
 
-- name: Debug
-  ansible.builtin.debug:
-    var: "{{ combined_group_vars.freebsd_sysrc_group }}"
-
 - name: Merge group sysrcs
   ansible.builtin.set_fact:
     _freebsd_sysrc_merged: "{{ freebsd_sysrc_global | default({}) | combine(freebsd_sysrc_group, list_merge='replace') }}"
@@ -17,10 +13,6 @@
   ansible.builtin.set_fact:
     _freebsd_sysrc_merged: "{{ _freebsd_sysrc_merged | combine(freebsd_sysrc_host | default({}), list_merge='replace') }}"
   tags: sysrc
-
-- name: Debug
-  ansible.builtin.debug:
-    var: "{{ _freebsd_sysrc_merged.items() }}"
 
 - name: Set combined sysrcs
   community.general.sysrc:
