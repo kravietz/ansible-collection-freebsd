@@ -16,8 +16,8 @@
 
 - name: Set combined sysctl values
   ansible.posix.sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
+    name: "{{ item[0] }}"
+    value: "{{ item[1] }}"
   loop: "{{ _freebsd_sysctl_merged.items() }}"
   tags: sysctl
 
@@ -38,8 +38,8 @@
 
 - name: Set combined sysctl values - noreload
   ansible.posix.sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
+    name: "{{ item[0] }}"
+    value: "{{ item[1] }}"
     sysctl_set: false
     reload: false
   loop: "{{ _freebsd_sysctl_noreload_merged.items() }}"
