@@ -16,3 +16,6 @@ freebsd_pkg_channel: quarterly
 
 freebsd_sysrc_group:
   group1_sysrc: "YES"
+
+freebsd_loader_group:
+  loader.variable.group1: 0

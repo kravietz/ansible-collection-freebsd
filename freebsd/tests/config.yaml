@@ -4,15 +4,6 @@
   become_user: root
   name: Test
   vars:
-    freebsd_loader_global:
-      - name: security.bsd.allow_destructive_dtrace
-        value: 0
-    freebsd_loader_group:
-      - name: verbose_loading
-        value: "YES"
-    freebsd_loader_host:
-      - name: autoboot_delay
-        value: 0
     freebsd_users_global:
       - name: user1
         uid: 5000

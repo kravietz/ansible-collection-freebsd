@@ -1,33 +1,27 @@
 ---
-# Cannot use community.general.sysrc here
-# because loader.conf key names can contain characters
+# The `community.general.sysrc` module seems more suitable
+# but loader.conf key names can contain characters
 # disallowed in rc.conf like a.b.c.d=xxx
+
+- name: Retrieve merged group loader vars
+  ansible.builtin.set_fact:
+    freebsd_loader_group: "{{ combined_group_vars.freebsd_loader_group | default({}) }}"
+  tags: loader
+
+- name: Merge group loader vars
+  ansible.builtin.set_fact:
+    _freebsd_loader_merged: "{{ freebsd_loader_global | default({}) | combine(freebsd_loader_group, list_merge='replace') }}"
+  tags: loader
+
+- name: Merge host  loader vars
+  ansible.builtin.set_fact:
+    _freebsd_loader_merged: "{{ _freebsd_loader_merged | combine(freebsd_loader_host | default({}), list_merge='replace') }}"
+  tags: loader
 
 - name: Configure loader.conf - global
   ansible.builtin.lineinfile:
-    line: '{{ item.name }}="{{ item.value }}"'
+    line: '{{ item[0] }}="{{ item[1] }}"'
     path: /boot/loader.conf
-    regexp: ^{{ item.name }}
-  loop: "{{ freebsd_loader_global | default([]) }}"
-  tags: system
-
-- name: Retrieve merged group loader configs
-  ansible.builtin.set_fact:
-    freebsd_loader_group: "{{ combined_group_vars.freebsd_loader_group | default([]) }}"
-  tags: system
-
-- name: Configure loader.conf - group
-  ansible.builtin.lineinfile:
-    line: '{{ item.name }}="{{ item.value }}"'
-    path: /boot/loader.conf
-    regexp: ^{{ item.name }}
-  loop: "{{ freebsd_loader_group | default([]) }}"
-  tags: system
-
-- name: Configure loader.conf - host
-  ansible.builtin.lineinfile:
-    line: '{{ item.name }}="{{ item.value }}"'
-    path: /boot/loader.conf
-    regexp: ^{{ item.name }}
-  loop: "{{ freebsd_loader_host | default([]) }}"
-  tags: system
+    regexp: ^{{ item[0] }}=
+  loop: "{{ _freebsd_loader_merged.items() | default([]) }}"
+  tags: loader

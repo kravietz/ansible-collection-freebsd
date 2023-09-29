@@ -11,3 +11,6 @@ freebsd_update_enable: false
 
 freebsd_sysrc_global:
   global_sysrc: "YES"
+
+freebsd_loader_global:
+  loader.variable.global: 0

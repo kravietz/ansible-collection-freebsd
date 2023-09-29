@@ -8,3 +8,6 @@ freebsd_packages_group:
 
 freebsd_sysrc_group:
   group2_sysrc: "YES"
+
+freebsd_loader_group:
+  loader.variable.group2: 0
