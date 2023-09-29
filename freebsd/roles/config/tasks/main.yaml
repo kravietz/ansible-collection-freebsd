@@ -20,8 +20,8 @@
 
 - name: Combine Rules when nft_merged_groups is set
   when: ((hostvars[inventory_hostname][varfile.groupname] is defined) and
-         (hostvars[inventory_hostname][varfile.groupname]|length > 0)) and
-        varfile.stat.exists
+    (hostvars[inventory_hostname][varfile.groupname]|length > 0)) and
+    varfile.stat.exists
   ansible.builtin.set_fact:
     combined_group_vars: "{{ combined_group_vars | default({}) | combine(hostvars[inventory_hostname][varfile.groupname], list_merge='append', recursive=True) }}"
   loop: "{{ group_files_stat.results }}"

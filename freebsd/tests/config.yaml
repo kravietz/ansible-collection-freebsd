@@ -49,7 +49,7 @@
       - "# test export"
     freebsd_termcap:
       - name: foot
-        value: 'foot|foot terminal emulator:am:bw:hs:mi:ms:xn'
+        value: "foot|foot terminal emulator:am:bw:hs:mi:ms:xn"
       - name: test1
         state: absent
   roles:
