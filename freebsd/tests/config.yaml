@@ -4,15 +4,6 @@
   become_user: root
   name: Test
   vars:
-    freebsd_sysrc_global:
-      - name: clear_tmp_enable
-        value: "YES"
-    freebsd_sysrc_group:
-      - name: sendmail_enable
-        value: "NONE"
-    freebsd_sysrc_host:
-      - name: sshd_enable
-        value: "YES"
     freebsd_loader_global:
       - name: security.bsd.allow_destructive_dtrace
         value: 0

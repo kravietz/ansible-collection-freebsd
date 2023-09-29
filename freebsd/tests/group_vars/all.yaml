@@ -8,3 +8,6 @@ freebsd_sysctl_noreload_global:
 freebsd_pkg_channel: latest
 
 freebsd_update_enable: false
+
+freebsd_sysrc_global:
+  global_sysrc: "YES"

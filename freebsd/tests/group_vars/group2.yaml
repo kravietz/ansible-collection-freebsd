@@ -5,3 +5,6 @@ pf_rules_group:
 
 freebsd_packages_group:
   - wget2
+
+freebsd_sysrc_group:
+  group2_sysrc: "YES"

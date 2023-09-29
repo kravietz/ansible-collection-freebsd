@@ -13,3 +13,6 @@ freebsd_packages_group:
   - wget
 
 freebsd_pkg_channel: quarterly
+
+freebsd_sysrc_group:
+  group1_sysrc: "YES"
