@@ -93,6 +93,7 @@ Dictionary of users to be added or removed from the system.
 Example:
 
 ```
+# group_vars/all.yaml
 freebsd_users_global:
   - name: user1
     uid: 5000
@@ -103,6 +104,8 @@ freebsd_users_global:
     password: "*"
     sudo_nopassword: true
     groups: wheel
+
+# group_vars/group1.yaml
 freebsd_users_group:
   - name: user2
     uid: 5001
@@ -170,14 +173,6 @@ Example Playbook
       test dir:
         dest: /tmp/test1
         state: directory
-    freebsd_configs_group:
-      test 2:
-        dest: /usr/local/etc/test2.txt
-        content: test 2
-    freebsd_configs_host:
-      test 3:
-        dest: /usr/local/etc/test3.txt
-        content: test 3
   roles:
     - kravietz.freebsd.config
 ```
