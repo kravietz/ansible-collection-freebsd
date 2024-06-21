@@ -26,6 +26,7 @@
   ansible.builtin.file:
     dest: "{{ item.dest }}"
     state: directory
+    recurse: true
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('wheel') }}"
     mode: "{{ item.mode | default('0644') }}"
