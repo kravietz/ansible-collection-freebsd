@@ -12,6 +12,7 @@
   when: freebsd_pkg_channel is defined
   ansible.builtin.file:
     dest: /usr/local/etc/pkg/repos/
+    recurse: true
     state: directory
     owner: root
     group: wheel
