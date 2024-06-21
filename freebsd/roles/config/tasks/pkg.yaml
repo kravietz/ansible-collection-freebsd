@@ -1,11 +1,11 @@
 ---
 - name: Cron freebsd-update
+  when: freebsd_pkg_channel is defined and freebsd_pkg_channel
   ansible.builtin.cron:
     special_time: daily
     job: freebsd-update cron
     user: root
-    name: freebsd-update cron
-  when: freebsd_update_enable
+    name: freebsd-update cron  
   tags: update
 
 - name: Ensure pkg configuration dir
@@ -19,7 +19,7 @@
   tags: pkg
 
 - name: Switch pkg to latest
-  when: freebsd_pkg_channel == 'latest'
+  when: freebsd_pkg_channel is defined and freebsd_pkg_channel == 'latest'
   ansible.builtin.copy:
     dest: /usr/local/etc/pkg/repos/FreeBSD.conf
     owner: root
@@ -29,7 +29,7 @@
   tags: pkg
 
 - name: Switch pkg to quarterly
-  when: freebsd_pkg_channel == 'quarterly'
+  when: freebsd_pkg_channel is defined and freebsd_pkg_channel == 'quarterly'
   ansible.builtin.file:
     dest: /usr/local/etc/pkg/repos/FreeBSD.conf
     state: absent
