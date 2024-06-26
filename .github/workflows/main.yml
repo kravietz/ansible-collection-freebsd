@@ -24,13 +24,9 @@ jobs:
         with:
           subdirectory: freebsd
 
-      - run: ls -lR
-
-      - run: env
-
       - uses: actions/attest-build-provenance@v1
         with:
-          subject-path: ${{ steps.build-collection.outputs.artifact-filename }}
+          subject-path: ./freebsd/${{ steps.build-collection.outputs.artifact-filename }}
 
       - name: ansible-publish-action
         uses: ansible/ansible-publish-action@v1.0.0
