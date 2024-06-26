@@ -21,6 +21,8 @@ jobs:
       - name: Build collection
         id: build-collection
         uses: ansible-community/github-action-build-collection@main
+        with:
+          subdirectory: freebsd
 
       - run: ls -lR
 
