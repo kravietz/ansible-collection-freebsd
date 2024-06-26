@@ -29,4 +29,4 @@ jobs:
       - name: ansible-publish-action
         uses: ansible/ansible-publish-action@v1.0.0
         with:
-          api_key: ${{ secrets.GALAXY }}
+          api_key: ${{ secrets.GALAXY_API_KEY }}
