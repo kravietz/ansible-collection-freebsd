@@ -1,0 +1,65 @@
+---
+- name: Cron freebsd-update
+  when: freebsd_pkg_channel is defined and freebsd_pkg_channel
+  ansible.builtin.cron:
+    special_time: daily
+    job: freebsd-update cron
+    user: root
+    name: freebsd-update cron  
+  tags: update
+
+- name: Ensure pkg configuration dir
+  when: freebsd_pkg_channel is defined
+  ansible.builtin.file:
+    dest: /usr/local/etc/pkg/repos/
+    recurse: true
+    state: directory
+    owner: root
+    group: wheel
+    mode: "0750"
+  tags: pkg
+
+- name: Switch pkg to latest
+  when: freebsd_pkg_channel is defined and freebsd_pkg_channel == 'latest'
+  ansible.builtin.copy:
+    dest: /usr/local/etc/pkg/repos/FreeBSD.conf
+    owner: root
+    group: wheel
+    mode: "0750"
+    content: "FreeBSD: { url: pkg+https://pkg.freebsd.org/${ABI}/latest }"
+  tags: pkg
+
+- name: Switch pkg to quarterly
+  when: freebsd_pkg_channel is defined and freebsd_pkg_channel == 'quarterly'
+  ansible.builtin.file:
+    dest: /usr/local/etc/pkg/repos/FreeBSD.conf
+    state: absent
+  tags: pkg
+
+- name: Retrieve merged group packages
+  ansible.builtin.set_fact:
+    freebsd_packages_group: "{{ combined_group_vars.freebsd_packages_group | default([]) }}"
+  tags: pkg
+
+- name: Create combined packages variable
+  ansible.builtin.set_fact:
+    freebsd_combined_packages: "{{ freebsd_packages_global | default([]) }}"
+  tags: pkg
+
+- name: Combine global and group packages
+  when: freebsd_packages_group is defined
+  ansible.builtin.set_fact:
+    freebsd_combined_packages: "{{ freebsd_combined_packages + freebsd_packages_group }}"
+  tags: pkg
+
+- name: Combine global and host packages
+  when: freebsd_packages_host is defined
+  ansible.builtin.set_fact:
+    freebsd_combined_packages: "{{ freebsd_combined_packages + freebsd_packages_host }}"
+  tags: pkg
+
+- name: Ensure required packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+  loop: "{{ freebsd_combined_packages }}"
+  tags: pkg

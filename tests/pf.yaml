@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+  become: true
+  become_user: root
+  name: Test
+  vars:
+    pf_rules_debug: true
+    freebsd_debug_vars: true
+    pf_rules_host:
+      080 nfs:
+        - nfs="{ sunrpc, nfsd-status, nfsd-keepalive, nfsd, lockd, 2050 }"
+        - pass in quick inet6 proto { tcp, udp } from 2a02:390:79ef::/48 to any port $nfs
+    # group vars defined in group_vars/groupN
+    pf_rules_global:
+      999 policy:
+        - pass in log
+      000 lo0:
+        - set skip on lo0
+      010 scrubs:
+        - scrub in fragment reassemble no-df
+        - scrub reassemble tcp
+        - scrub out all random-id
+      020 egress:
+        - pass out modulate state
+      040 icmpv6:
+        - ok_icmp6="{ unreach, toobig, timex, paramprob, echoreq, routeradv, neighbrsol, neighbradv, redir, 141, 142 }"
+        - pass in quick inet6 proto ipv6-icmp icmp6-type $ok_icmp6
+      050 dhcpv6:
+        - pass in quick inet6 proto udp from fe80::/10 port = dhcpv6-server to any port = dhcpv6-client
+      060 icmp:
+        - ok_icmp="{ unreach, echoreq, timex, paramprob }"
+        - pass in quick inet proto icmp icmp-type $ok_icmp
+      070 dhcp:
+        - pass in quick inet proto udp from any port = dhcps to any port dhcpc
+      090 silent block noisy:
+        - noisy="{ 137:139, mdns, 5355, ssdp, 6667, 10001, dhcps }"
+        - block in quick proto udp from any to any port $noisy
+  roles:
+    - kravietz.freebsd.pf

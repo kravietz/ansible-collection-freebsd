@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  become: true
+  become_user: root
+  name: Test
+  vars:
+    freebsd_users_global:
+      - name: user1
+        uid: 5000
+        sudo: true
+        shell: /bin/sh
+        sshkeys:
+          - ssh-ed25519 AAA user@test
+        password: "*"
+        sudo_nopassword: true
+        groups: wheel
+    freebsd_users_group:
+      - name: user2
+        uid: 5001
+        shell: /bin/sh
+        sshkeys:
+          - ssh-ed25519 AAA user@test
+        password: "*"
+      - name: rpi
+        state: absent
+    freebsd_users_host:
+      - name: user3
+        uid: 5003
+        shell: /bin/sh
+        password_lock: true
+    freebsd_configs_global:
+      test 1:
+        dest: /usr/local/etc/test1.txt
+        content: test 1
+      test dir:
+        dest: /tmp/test1
+        state: directory
+    freebsd_configs_group:
+      test 2:
+        dest: /usr/local/etc/test2.txt
+        content: test 2
+    freebsd_configs_host:
+      test 3:
+        dest: /usr/local/etc/test3.txt
+        content: test 3
+    freebsd_mounts:
+      - "# test fstab mount"
+    freebsd_exports:
+      - "# test export"
+    freebsd_termcap:
+      - name: foot
+        value: "foot|foot terminal emulator:am:bw:hs:mi:ms:xn"
+      - name: test1
+        state: absent
+  roles:
+    - kravietz.freebsd.config

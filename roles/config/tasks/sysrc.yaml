@@ -1,0 +1,22 @@
+---
+- name: Retrieve merged group sysrcs
+  ansible.builtin.set_fact:
+    freebsd_sysrc_group: "{{ combined_group_vars.freebsd_sysrc_group | default({}) }}"
+  tags: sysrc
+
+- name: Merge group sysrcs
+  ansible.builtin.set_fact:
+    _freebsd_sysrc_merged: "{{ freebsd_sysrc_global | default({}) | combine(freebsd_sysrc_group, list_merge='replace') }}"
+  tags: sysrc
+
+- name: Merge host sysrcs
+  ansible.builtin.set_fact:
+    _freebsd_sysrc_merged: "{{ _freebsd_sysrc_merged | combine(freebsd_sysrc_host | default({}), list_merge='replace') }}"
+  tags: sysrc
+
+- name: Set combined sysrcs
+  community.general.sysrc:
+    name: "{{ item[0] }}"
+    value: "{{ item[1] }}"
+  loop: "{{ _freebsd_sysrc_merged.items() }}"
+  tags: sysrc

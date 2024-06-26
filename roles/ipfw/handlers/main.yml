@@ -1,0 +1,7 @@
+---
+- name: Ipfw restart
+  ansible.builtin.service:
+    name: ipfw
+    state: restarted
+  tags: ipfw
+

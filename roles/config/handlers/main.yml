@@ -1,0 +1,3 @@
+---
+- name: mkdb termcap
+  command: /usr/bin/cap_mkdb /usr/share/misc/termcap

@@ -1,0 +1,81 @@
+---
+- name: Create combined configs variable
+  ansible.builtin.set_fact:
+    freebsd_combined_configs: "{{ freebsd_configs_global | default({}) }}"
+  tags: config
+
+- name: Retrieve merged group configs
+  ansible.builtin.set_fact:
+    freebsd_configs_group: "{{ combined_group_vars.freebsd_configs_group | default({}) }}"
+  tags: config
+
+- name: Combine global and group configs
+  when: freebsd_configs_group is defined
+  ansible.builtin.set_fact:
+    freebsd_combined_configs: "{{ freebsd_combined_configs | combine(freebsd_configs_group, recursive=True) }}"
+  tags: config
+
+- name: Combine global and host configs
+  when: freebsd_configs_host is defined
+  ansible.builtin.set_fact:
+    freebsd_combined_configs: "{{ freebsd_combined_configs | combine(freebsd_configs_host, recursive=True) }}"
+  tags: config
+
+- name: Create config dirs
+  when: "'state' in item and item.state == 'directory'"
+  ansible.builtin.file:
+    dest: "{{ item.dest }}"
+    state: directory
+    recurse: true
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('wheel') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop: "{{ freebsd_combined_configs.values() }}"
+  tags: config
+
+- name: Write config files
+  ansible.builtin.copy:
+    dest: "{{ item.dest }}"
+    content: "{{ item.content }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('wheel') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  when: "'format' not in item and 'state' not in item"
+  loop: "{{ freebsd_combined_configs.values() }}"
+  tags: config
+
+- name: Write JSON config files
+  ansible.builtin.copy:
+    dest: "{{ item.dest }}"
+    content: "{{ item.content | to_nice_json }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('wheel') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  when: "'format' in item and item.format == 'json'"
+  loop: "{{ freebsd_combined_configs.values() }}"
+  tags: config
+
+- name: Write YAML config files
+  ansible.builtin.copy:
+    dest: "{{ item.dest }}"
+    content: "{{ item.content | to_nice_yaml }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('wheel') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  when: "'format' in item and item.format == 'yaml'"
+  loop: "{{ freebsd_combined_configs.values() }}"
+  tags: config
+
+- name: Update termcap records
+  when: freebsd_termcap is defined
+  ansible.builtin.lineinfile:
+    dest: /usr/share/misc/termcap
+    regexp: "^{{ item.name }}\\|"
+    line: "{{ item.value | default('') }}"  # default for when state == 'absent'
+    state: "{{ item.state | default('present') }}"
+    owner: root
+    group: wheel
+    mode: "0444"
+  loop: "{{ freebsd_termcap }}"
+  notify:
+    - mkdb termcap

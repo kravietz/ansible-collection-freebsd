@@ -1,0 +1,10 @@
+---
+- name: Pf reload
+  ansible.builtin.command: pfctl -f /etc/pf.conf
+  tags: pf
+
+- name: Pf restart
+  ansible.builtin.service:
+    name: pf
+    state: restarted
+  tags: pf

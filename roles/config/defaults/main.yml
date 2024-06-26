@@ -1,0 +1,59 @@
+---
+# freebsd_pkg_channel: latest
+# freebsd_pkg_channel: quarterly
+# freebsd_update_enable: false
+# freebsd_packages_global: []
+# freebsd_packages_group: []
+# freebsd_packages_host: []
+
+# freebsd_sysctl_noreload_global:
+#   name1: value1
+#   name2: value2
+# freebsd_sysctl_noreload_group: {}
+# freebsd_sysctl_noreload_host: {}
+
+# freebsd_sysctl_global:
+#   name1: value1
+#   name2: value2
+# freebsd_sysctl_group: {}
+# freebsd_sysctl_host: {}
+
+# freebsd_sysrc_global:
+#   name1: value1
+#   name2: value2
+# freebsd_sysrc_group:
+#   name1: value1
+#   name2: value2
+# freebsd_sysrc_host:
+#   name1: value1
+#   name2: value2
+
+# freebsd_loader_global:
+#   name1: value1
+#   name2: value2
+# freebsd_loader_group:
+#   name1: value1
+#   name2: value2
+# freebsd_loader_host:
+#   name1: value1
+#   name2: value2
+
+# freebsd_users_global: []
+# freebsd_users_group: []
+# freebsd_users_host: []
+
+# freebsd_configs_global: {}
+# freebsd_configs_group: {}
+# freebsd_configs_host: {}
+
+# freebsd_mounts: []
+# freebsd_exports: []
+
+# freebsd_termcap:
+#   - name: foot
+#     value: 'foot|foot terminal emulator:am:bw...'
+#   - name: foot
+#     state: absent
+
+freebsd_merge_dir: ./group_vars
+freebsd_debug_vars: false

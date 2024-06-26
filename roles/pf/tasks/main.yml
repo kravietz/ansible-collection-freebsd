@@ -1,0 +1,78 @@
+---
+- name: Check for group files
+  become: false
+  delegate_to: localhost
+  ansible.builtin.stat:
+    path: "{{ freebsd_merge_dir ~ '/' ~ groupname ~ '.yaml' }}"
+  loop: "{{ group_names }}"
+  loop_control:
+    loop_var: groupname
+  register: group_files_stat
+
+- name: Import variables from group files
+  ansible.builtin.include_vars:
+    file: "{{ varfile.invocation.module_args.path }}"
+    name: "{{ varfile.groupname }}"
+  loop: "{{ group_files_stat.results }}"
+  loop_control:
+    loop_var: varfile
+  when: varfile.stat.exists
+
+- name: Combine Rules when nft_merged_groups is set
+  when: ((hostvars[inventory_hostname][varfile.groupname] is defined) and
+         (hostvars[inventory_hostname][varfile.groupname]|length > 0)) and
+        varfile.stat.exists
+  ansible.builtin.set_fact:
+    combined_group_vars: "{{ combined_group_vars | default({}) | combine(hostvars[inventory_hostname][varfile.groupname], list_merge='append', recursive=True) }}"
+  loop: "{{ group_files_stat.results }}"
+  loop_control:
+    loop_var: varfile
+
+- name: Debug combined_group_vars
+  ansible.builtin.debug:
+    var: combined_group_vars
+  when: freebsd_debug_vars
+
+- name: Create combined rules
+  ansible.builtin.set_fact:
+    _pf_rules_combined: "{{ pf_rules_global | default({}) }}"
+  tags: pf
+
+- name: Retrieve merged group pf rules
+  ansible.builtin.set_fact:
+    pf_rules_group: "{{ combined_group_vars.pf_rules_group | default({}) }}"
+  tags: pf
+
+- name: Debug group rules
+  ansible.builtin.debug:
+    var: combined_group_vars
+  tags: pf
+
+- name: Combine global and group rules
+  when: pf_rules_group is defined
+  ansible.builtin.set_fact:
+    _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_group, recursive=True) }}"
+  tags: pf
+
+- name: Combine global and host rules, then sort
+  when: pf_rules_host is defined
+  ansible.builtin.set_fact:
+    _pf_rules_combined: "{{ _pf_rules_combined | combine(pf_rules_host, recursive=True) }}"
+  tags: pf
+
+- name: Debug all rules
+  ansible.builtin.debug:
+    var: _pf_rules_combined
+  tags: pf
+
+- name: Write pf.conf
+  ansible.builtin.template:
+    dest: /etc/pf.conf
+    src: templates/pf.conf.j2
+    validate: 'pfctl -n -f %s'
+    owner: root
+    group: wheel
+    mode: 0644
+  tags: pf
+  notify:
+    - Pf reload
