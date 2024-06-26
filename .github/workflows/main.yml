@@ -21,15 +21,12 @@ jobs:
       - name: Build collection
         id: build-collection
         uses: ansible-community/github-action-build-collection@main
-        with:
-          subdirectory: ./freebsd
 
       - uses: actions/attest-build-provenance@v1
         with:
-          subject-path: ./freebsd/${{ steps.build-collection.outputs.artifact-filename }}
+          subject-path: ${{ steps.build-collection.outputs.artifact-filename }}
 
       - name: ansible-publish-action
         uses: ansible/ansible-publish-action@v1.0.0
         with:
           api_key: ${{ secrets.GALAXY }}
-          src_path: .
