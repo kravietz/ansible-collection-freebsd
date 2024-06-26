@@ -1,19 +1,33 @@
+---
 on:
-  schedule:
-  - cron:  "0 * * * *"
-  workflow_dispatch:
-
+  release:
+    types:
+      - published
+    secrets:
+      GALAXY_API_KEY:
+        required: true
 jobs:
-  repo-sync:
+  deploy:
+    permissions:
+      id-token: write
+      attestations: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-    - name: repo-sync
-      uses: repo-sync/github-sync@v2
-      with:
-        source_repo: "https://git.sr.ht/~kravietz/ansible-collection-freebsd"
-        source_branch: "*"
-        destination_branch: "*"
-        github_token: ${{ secrets.PAT }}
+      - uses: actions/checkout@v4
+
+      - name: Get the version name from the tags
+        run: echo "RELEASE_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
+      - name: ansible-publish-action
+        uses: ansible/ansible-publish-action@v1.0.0
+        with:
+          api_key: ${{ secrets.GALAXY }}
+          src_path: ./freebsd
+
+      - run: ls -lR
+
+      - run: env
+
+      - uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ./freebsd
