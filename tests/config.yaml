@@ -43,6 +43,18 @@
       test 3:
         dest: /usr/local/etc/test3.txt
         content: test 3
+      test 4:
+        dest: /usr/local/etc/test4.txt
+        format: yaml
+        content:
+          test1: value1
+          test2: value2
+      test 5:
+        dest: /usr/local/etc/test5.txt
+        format: json
+        content:
+          test1: value1
+          test2: value2
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:

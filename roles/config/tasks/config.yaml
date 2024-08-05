@@ -58,7 +58,7 @@
 - name: Write YAML config files
   ansible.builtin.copy:
     dest: "{{ item.dest }}"
-    content: "{{ item.content | to_nice_yaml }}"
+    content: "{{ freebsd_yaml_header }}{{ item.content | to_nice_yaml }}"
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('wheel') }}"
     mode: "{{ item.mode | default('0644') }}"
