@@ -11,12 +11,12 @@ sources:
   - https://git.sr.ht/~kravietz/ansible-collection-freebsd
 tasks:
   - install: |
-      ansible-galaxy collection build ansible-collection-freebsd/freebsd/
+      ansible-galaxy collection build ansible-collection-freebsd/
       ansible-galaxy collection install kravietz-freebsd-*.tar.gz
   - lint: |
-      cd ansible-collection-freebsd/freebsd/tests
+      cd ansible-collection-freebsd/tests
       ansible-lint
       ansible-playbook -i inventory --syntax-check config.yaml
   - deploy: |
-      cd ansible-collection-freebsd/freebsd/tests
+      cd ansible-collection-freebsd/tests
       ansible-playbook -i inventory --diff config.yaml
