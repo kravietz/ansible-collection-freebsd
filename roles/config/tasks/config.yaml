@@ -34,7 +34,7 @@
   tags: config
 
 - name: Write config files (content)
-  ansible.builtin.template:
+  ansible.builtin.copy:
     dest: "{{ item.dest }}"
     content: "{{ item.content }}"
     owner: "{{ item.owner | default('root') }}"
@@ -45,7 +45,7 @@
   tags: config
 
 - name: Write config files (template)
-  ansible.builtin.copy:
+  ansible.builtin.template:
     dest: "{{ item.dest }}"
     src: "{{ item.src }}"
     owner: "{{ item.owner | default('root') }}"
