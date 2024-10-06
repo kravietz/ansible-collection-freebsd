@@ -4,9 +4,9 @@
 # @formatter:off
 image: freebsd/latest
 packages:
-  - py39-ansible
-  - py39-ansible-lint
-  - py39-importlib-resources
+  - py311-ansible
+  - py311-ansible-lint
+  - py311-importlib-resources
 sources:
   - https://git.sr.ht/~kravietz/ansible-collection-freebsd
 tasks:
