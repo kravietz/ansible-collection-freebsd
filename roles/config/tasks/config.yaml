@@ -29,7 +29,7 @@
     recurse: true
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('wheel') }}"
-    mode: "{{ item.mode | default('0644') }}"
+    mode: "{{ item.mode | default('0755') }}"
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
 
@@ -71,7 +71,7 @@
   ansible.builtin.lineinfile:
     dest: /usr/share/misc/termcap
     regexp: "^{{ item.name }}\\|"
-    line: "{{ item.value | default('') }}"  # default for when state == 'absent'
+    line: "{{ item.value | default('') }}" # default for when state == 'absent'
     state: "{{ item.state | default('present') }}"
     owner: root
     group: wheel
