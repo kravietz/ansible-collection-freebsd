@@ -33,14 +33,25 @@
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
 
-- name: Write config files
-  ansible.builtin.copy:
+- name: Write config files (content)
+  ansible.builtin.template:
     dest: "{{ item.dest }}"
     content: "{{ item.content }}"
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('wheel') }}"
     mode: "{{ item.mode | default('0644') }}"
-  when: "'format' not in item and 'state' not in item"
+  when: "'format' not in item and 'state' not in item and 'src' not in item"
+  loop: "{{ freebsd_combined_configs.values() }}"
+  tags: config
+
+- name: Write config files (template)
+  ansible.builtin.copy:
+    dest: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('wheel') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  when: "'format' not in item and 'state' not in item and 'src' in item"
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
 

@@ -1,12 +1,7 @@
 Role Name
 =========
 
-Configure key FreeBSD server settings.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Configure key FreeBSD server settings and drop arbitrary configuration files.
 
 Role Variables
 --------------
@@ -74,7 +69,7 @@ freebsd_loader_global:
 
 Dictionaries dropping arbitrary configuration files in the system.
 
-Example:
+File contents defined inline using `content` attribue (Ansible variables like `{{ value }}` are supported):
 
 ```
 freebsd_configs_global:
@@ -84,6 +79,56 @@ freebsd_configs_global:
     mode: "0640"
     dest: /usr/local/etc/test1.txt
     content: test 1
+```
+
+File contents defined using Jinja2 [Ansible templates](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html) using `src` attribute:
+
+```
+freebsd_configs_global:
+  test file 2:
+    owner: www
+    group: www
+    mode: "0640"
+    src: templates/file2.j2
+    content: test 1
+```
+
+**Warning:** The `content` and `src` attributes are mutually exclusive.
+
+File contents defined inline using YAML rendered into well-formatted YAML:
+
+```
+freebsd_configs_global:
+  test file 3:
+    owner: www
+    group: www
+    mode: "0640"
+    format: yaml
+    content:
+      key: value
+      nested:
+        structure:
+          array:
+            - one
+            - two
+```
+
+File contents defined inline using YAML rendered into well-formatted JSON:
+
+```
+freebsd_configs_global:
+  test file 4:
+    owner: www
+    group: www
+    mode: "0640"
+    format: json
+    content:
+      key: value
+      nested:
+        structure:
+          array:
+            - one
+            - two
 ```
 
 ### `freebsd_users_global`, `freebsd_users_group`, `freebsd_users_host`

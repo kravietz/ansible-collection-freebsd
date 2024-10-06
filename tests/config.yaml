@@ -55,6 +55,9 @@
         content:
           test1: value1
           test2: value2
+      test 6:
+        dest: /usr/local/etc/test6.txt
+        src: templates/test6.txt
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:
