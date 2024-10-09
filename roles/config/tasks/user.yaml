@@ -34,9 +34,9 @@
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
     groups: "{{ item.groups | default(item.name) }}"
-    append: true  # append to the above groups, not remove from others
+    append: true # append to the above groups, not remove from others
     shell: "{{ item.shell | default('/bin/sh') }}"
-    uid: "{{ item.uid | default(5000) }}"  # hack for when state == 'absent'
+    uid: "{{ item.uid | default(5000) }}" # hack for when state == 'absent'
     expires: -1
     password_lock: "{{ item.password_lock | default(False) }}"
   loop: "{{ freebsd_combined_users }}"
@@ -56,7 +56,6 @@
   tags: user
 
 - name: Ensure ssh keys
-  when: "'sshkeys' in item"
   ansible.posix.authorized_key:
     user: "{{ item.0.name }}"
     key: "{{ item.1 }}"
