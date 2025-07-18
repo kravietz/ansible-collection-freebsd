@@ -79,9 +79,9 @@
 
 - name: Restart services
   ansible.builtin.service:
-    name: "{{ item.reload }}"
-    state: reloaded
-  when: "'reload' in item"
+    name: "{{ item.restart }}"
+    state: restarted
+  when: "'restart' in item"
   loop: "{{ freebsd_combined_configs.values() }}"
 
 - name: Update termcap records

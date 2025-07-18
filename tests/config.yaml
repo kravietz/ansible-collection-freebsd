@@ -61,7 +61,7 @@
       test 7:
         dest: /etc/cron.d/test7
         content: "@daily root logger test"
-        reload: cron
+        restart: cron
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:
