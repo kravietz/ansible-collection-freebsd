@@ -58,6 +58,10 @@
       test 6:
         dest: /usr/local/etc/test6.txt
         src: templates/test6.txt
+      test 7:
+        dest: /etc/cron.d/test7
+        content: "@daily root logger test"
+        reload: crond
     freebsd_mounts:
       - "# test fstab mount"
     freebsd_exports:

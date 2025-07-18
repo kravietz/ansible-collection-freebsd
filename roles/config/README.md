@@ -79,7 +79,10 @@ freebsd_configs_global:
     mode: "0640"
     dest: /usr/local/etc/test1.txt
     content: test 1
+    reload: nginx # optional
 ```
+
+The `reload` attribute is optional and can be used to specify a service to be reloaded after the file is updated. Ansible [service](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/service_module.html#parameter-state) module will be used to reload the service.
 
 File contents defined using Jinja2 [Ansible templates](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html) using `src` attribute:
 

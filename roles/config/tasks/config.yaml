@@ -77,6 +77,13 @@
   loop: "{{ freebsd_combined_configs.values() }}"
   tags: config
 
+- name: Restart services
+  ansible.builtin.service:
+    name: "{{ item.reload }}"
+    state: reloaded
+  when: "'reload' in item"
+  loop: "{{ freebsd_combined_configs.values() }}"
+
 - name: Update termcap records
   when: freebsd_termcap is defined
   ansible.builtin.lineinfile:
