@@ -13,7 +13,20 @@ Role Variables
 
 ### `freebsd_update_enable`
 
-Boolean. Whether [freebsd-update cron](https://man.freebsd.org/cgi/man.cgi?query=freebsd-update&apropos=0&sektion=8&manpath=FreeBSD+13.2-RELEASE+and+Ports&arch=default&format=html) should be run periodically from `cron`. Default `false`.
+Boolean. Whether [freebsd-update cron](https://man.freebsd.org/cgi/man.cgi?query=freebsd-update&apropos=0&sektion=8&manpath=FreeBSD+13.2-RELEASE+and+Ports&arch=default&format=html) should be run periodically from `cron`. Default `false`. This will not actually upgrade the system, only check for updates
+and send them over email to root, if available.
+
+### `freebsd_update_binary`
+
+String. If undefined or `freebsd-update` use the default `freebsd-update` binary. If `freebsd-rustdate`, use the [freebsd-rustdate](https://rustdate.over-yonder.net) alternative to `freebsd-update`.
+
+### `freebsd_pkg_upgrade_security`
+
+Boolean. Run [pkg upgrade --vulnerable](https://man.freebsd.org/cgi/man.cgi?query=pkg-upgrade#end) daily to upgrade vulnerable packages. Default `false`. This will actually upgrade packages but not restart services.
+
+### `freebsd_pkg_upgrade_all`
+
+Boolean. Run [pkg upgrade](https://man.freebsd.org/cgi/man.cgi?query=pkg-upgrade#end) daily to upgrade all packages. Default `false`. This will actually upgrade packages but not restart services.
 
 ### `freebsd_packages_global`, `freebsd_packages_group`, `freebsd_packages_host`
 

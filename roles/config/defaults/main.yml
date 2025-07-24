@@ -1,7 +1,13 @@
 ---
 # freebsd_pkg_channel: latest
 # freebsd_pkg_channel: quarterly
+# freebsd_pkg_upgrade_all: false
+# freebsd_pkg_upgrade_security: false
+
 # freebsd_update_enable: false
+freebsd_update_binary: freebsd-update
+# freebsd_update_binary: freebsd-rustdate
+
 # freebsd_packages_global: []
 # freebsd_packages_group: []
 # freebsd_packages_host: []

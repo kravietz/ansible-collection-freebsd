@@ -1,12 +1,39 @@
 ---
+- name: Ensure freebsd-rustdate installed
+  when: freebsd_update_rustdate is defined and freebsd_update_rustdate
+  ansible.builtin.package:
+    name: freebsd-rustdate
+    state: present
+  tags: [update, pkg]
+
 - name: Cron freebsd-update
-  when: freebsd_pkg_channel is defined and freebsd_pkg_channel
+  when: freebsd_update_enable is defined and freebsd_update_enable
   ansible.builtin.cron:
     special_time: daily
-    job: freebsd-update cron
+    job: "{{ freebsd_update_binary }} cron"
     user: root
-    name: freebsd-update cron  
+    # this is always set to `freebsd-update cron` to avoid switching
+    # without duplication of tasks
+    name: freebsd-update cron
   tags: update
+
+- name: Cron pkg upgrade vulnerable
+  when: freebsd_pkg_upgrade_security is defined and freebsd_pkg_upgrade_security
+  ansible.builtin.cron:
+    special_time: daily
+    job: pkg update --quiet && pkg upgrade --vulnerable --yes
+    user: root
+    name: pkg upgrade vulnerable
+  tags: pkg
+
+- name: Cron pkg upgrade all
+  when: freebsd_pkg_upgrade_all is defined and freebsd_pkg_upgrade_all
+  ansible.builtin.cron:
+    special_time: daily
+    job: pkg update --quiet && pkg upgrade --yes
+    user: root
+    name: pkg upgrade all
+  tags: pkg
 
 - name: Ensure pkg configuration dir
   when: freebsd_pkg_channel is defined
