@@ -5,12 +5,13 @@ Configure FreeBSD [pf](https://docs.freebsd.org/en/books/handbook/firewalls/#fir
 
 Role Variables
 --------------
+**Note:** Variables marked with `⛙` will be merged from global, group and host level variables into a single, final dictionary.
 
 ### `pf_rules_debug`
 
 Boolean controlling whether to dump final rules set during playbook run for debugging purposes. Default `false`.
 
-### `pf_rules_global`, `pf_rules_group`, `pf_rules_host`
+### ⛙ `pf_rules_global`, `pf_rules_group`, `pf_rules_host`
 
 Variables storing actual `pf` rules on global, group and host level. The variables are merged across all groups, contrasting with the default Ansible behaviour (overwrite). When the host is a member of several groups, it will receive rules from _all_ of these groups.
 

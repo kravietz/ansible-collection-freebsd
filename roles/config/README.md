@@ -5,7 +5,7 @@ Configure key FreeBSD server settings and drop arbitrary configuration files.
 
 Role Variables
 --------------
-**Note:** Variables marked with `⛙` will be merged from global level, group level and host level variables.
+**Note:** Variables marked with `⛙` will be merged from global, group and host level variables into a single, final dictionary.
 
 ### `freebsd_pkg_channel`
 
@@ -28,11 +28,11 @@ Boolean. Run [pkg upgrade --vulnerable](https://man.freebsd.org/cgi/man.cgi?quer
 
 Boolean. Run [pkg upgrade](https://man.freebsd.org/cgi/man.cgi?query=pkg-upgrade#end) daily to upgrade all packages. Default `false`. This will actually upgrade packages but not restart services.
 
-### `freebsd_packages_global`, `freebsd_packages_group`, `freebsd_packages_host`
+### ⛙ `freebsd_packages_global`, `freebsd_packages_group`, `freebsd_packages_host`
 
 List of packages to be installed using [pkg](https://man.freebsd.org/cgi/man.cgi?query=pkg&apropos=0&sektion=8&manpath=FreeBSD+13.2-RELEASE+and+Ports&arch=default&format=html). Lists from each level (global, group, host) are added.
 
-### `freebsd_sysctl_noreload_global`, `freebsd_sysctl_noreload_group`, `freebsd_sysctl_noreload_host` ⛙
+### ⛙ `freebsd_sysctl_noreload_global`, `freebsd_sysctl_noreload_group`, `freebsd_sysctl_noreload_host`
 
 Dictionary of [sysctl](https://man.freebsd.org/cgi/man.cgi?sysctl(8)) key names and values to be set in `/etc/sysctl.conf` only (they won't be set in the kernel until the next reboot).
 
@@ -43,7 +43,7 @@ freebsd_sysctl_noreload_global:
   kern.randompid: 1
 ```
 
-### `freebsd_sysctl_global`, `freebsd_sysctl_group`, `freebsd_sysctl_host` ⛙
+### ⛙ `freebsd_sysctl_global`, `freebsd_sysctl_group`, `freebsd_sysctl_host`
 
 Dictionary of [sysctl](https://man.freebsd.org/cgi/man.cgi?sysctl(8)) key names and values to be set in `/etc/sysctl.conf` and in kernel.
 
@@ -54,7 +54,7 @@ freebsd_sysctl_global:
   net.inet6.ip6.use_tempaddr: 0
 ```
 
-### `freebsd_sysrc_global`, `freebsd_sysrc_group`, `freebsd_sysrc_host` ⛙
+### ⛙ `freebsd_sysrc_global`, `freebsd_sysrc_group`, `freebsd_sysrc_host`
 
 Dictionary of [rc.conf](https://man.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5&apropos=0&manpath=FreeBSD+13.2-RELEASE+and+Ports) key names and values to be set using [sysrc](https://man.freebsd.org/cgi/man.cgi?query=sysrc&sektion=8&format=html).
 
@@ -66,7 +66,7 @@ freebsd_sysrc_global:
   ip6addrctl_policy: "ipv6_prefer"
 ```
 
-### `freebsd_loader_global`, `freebsd_loader_group`, `freebsd_loader_host` ⛙
+### ⛙ `freebsd_loader_global`, `freebsd_loader_group`, `freebsd_loader_host`
 
 Dictionary of to be set in key names and values [loader.conf](https://man.freebsd.org/cgi/man.cgi?query=loader.conf&sektion=5&apropos=0&manpath=FreeBSD+13.1-RELEASE+and+Ports).
 
@@ -78,7 +78,7 @@ freebsd_loader_global:
 ```
 
 
-### `freebsd_configs_global`, `freebsd_configs_group` and `freebsd_configs_host` ⛙
+### ⛙ `freebsd_configs_global`, `freebsd_configs_group` and `freebsd_configs_host`
 
 Dictionaries dropping arbitrary configuration files in the system.
 
@@ -147,7 +147,7 @@ freebsd_configs_global:
             - two
 ```
 
-### `freebsd_users_global`, `freebsd_users_group`, `freebsd_users_host`
+### ⛙ `freebsd_users_global`, `freebsd_users_group`, `freebsd_users_host`
 
 Dictionary of users to be added or removed from the system.
 

@@ -5,12 +5,13 @@ Configure FreeBSD [ipfw](https://docs.freebsd.org/en/books/handbook/firewalls/#f
 
 Role Variables
 --------------
+**Note:** Variables marked with `⛙` will be merged from global, group and host level variables into a single, final dictionary.
 
 ### `ipfw_rules_debug`
 
 Boolean controlling whether to dump final rules set during playbook run for debugging purposes. Default `false`.
 
-### `ipfw_rules_global`, `ipfw_rules_group`, `ipfw_rules_host`
+### ⛙ `ipfw_rules_global`, `ipfw_rules_group`, `ipfw_rules_host`
 
 Variables storing actual `ipfw` rules on global, group and host level. The variables are merged across all groups, contrasting with the default Ansible behaviour (overwrite). When the host is a member of several groups, it will receive rules from _all_ of these groups.
 
