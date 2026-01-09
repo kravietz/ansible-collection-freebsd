@@ -53,7 +53,15 @@
     owner: root
     group: wheel
     mode: "0750"
-    content: "FreeBSD: { url: pkg+https://pkg.freebsd.org/${ABI}/latest }"
+    content: |
+      FreeBSD: {
+               url: "pkg+https://pkg.freebsd.org/${ABI}/latest",
+               enabled: true,
+               signature_type: "fingerprints",
+               fingerprints: "/usr/share/keys/pkg",
+               mirror_type: "srv"
+           }
+
   tags: pkg
 
 - name: Switch pkg to quarterly
